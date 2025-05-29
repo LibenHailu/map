@@ -125,7 +125,7 @@ export default function MapPage() {
         const res = filterData()
         setProcessedData(res)
 
-    }, [viewType, filterData])
+    }, [viewType])
 
 
     if (!processedData) {
