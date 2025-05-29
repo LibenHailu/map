@@ -1,145 +1,22 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet"
-import { Maximize2, Filter, Search, ThumbsUp, AlertTriangle, Clock, Calendar } from "lucide-react"
-import { cn } from "@/lib/utils"
-import "leaflet/dist/leaflet.css"
-import { riskData } from "@/data/risk-data"
-import counties from "@/data/geo.json"
 import { WorldMap } from "@/components/map"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
     Table,
-    TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
-    TableRow,
+    TableRow
 } from "@/components/ui/table"
+import { riskData } from "@/data/risk-data"
+import { cn } from "@/lib/utils"
+import "leaflet/dist/leaflet.css"
+import { Filter } from "lucide-react"
+import { useEffect, useState } from "react"
 
-// Mock data types
-interface RiskData {
-    id: string
-    title: string
-    description: string
-    country: string
-    region: string
-    coordinates: [number, number]
-    riskScore: number
-    upVotes: number
-    isThreats: boolean
-    uploadTime: Date
-    exposureStartDate: Date
-    exposureEndDate: Date
-    isPublic: boolean
-    userId?: string
-    riskType: "environmental" | "political" | "economic" | "security" | "health"
-}
-
-interface CountryData {
-    code: string
-    name: string
-    coordinates: [number, number]
-    region: string
-}
-
-// Mock data
-const mockRiskData: RiskData[] = [
-    {
-        id: "1",
-        title: "Climate Change Impact",
-        description: "Rising sea levels affecting coastal areas",
-        country: "Bangladesh",
-        region: "Asia",
-        coordinates: [23.685, 90.3563],
-        riskScore: 8.5,
-        upVotes: 45,
-        isThreats: true,
-        uploadTime: new Date("2024-01-15"),
-        exposureStartDate: new Date("2024-06-01"),
-        exposureEndDate: new Date("2024-12-31"),
-        isPublic: true,
-        riskType: "environmental",
-    },
-    {
-        id: "2",
-        title: "Political Instability",
-        description: "Ongoing civil unrest and government changes",
-        country: "Myanmar",
-        region: "Asia",
-        coordinates: [21.9162, 95.956],
-        riskScore: 9.2,
-        upVotes: 67,
-        isThreats: true,
-        uploadTime: new Date("2024-01-10"),
-        exposureStartDate: new Date("2024-03-01"),
-        exposureEndDate: new Date("2024-09-30"),
-        isPublic: true,
-        riskType: "political",
-    },
-    {
-        id: "3",
-        title: "Economic Recession",
-        description: "High inflation and unemployment rates",
-        country: "Argentina",
-        region: "South America",
-        coordinates: [-38.4161, -63.6167],
-        riskScore: 7.8,
-        upVotes: 32,
-        isThreats: false,
-        uploadTime: new Date("2024-01-20"),
-        exposureStartDate: new Date("2024-04-01"),
-        exposureEndDate: new Date("2024-10-31"),
-        isPublic: false,
-        riskType: "economic",
-    },
-    {
-        id: "4",
-        title: "Cybersecurity Threats",
-        description: "Increased cyber attacks on infrastructure",
-        country: "Estonia",
-        region: "Europe",
-        coordinates: [58.5953, 25.0136],
-        riskScore: 6.9,
-        upVotes: 28,
-        isThreats: true,
-        uploadTime: new Date("2024-01-25"),
-        exposureStartDate: new Date("2024-02-01"),
-        exposureEndDate: new Date("2024-08-31"),
-        isPublic: true,
-        riskType: "security",
-    },
-    {
-        id: "5",
-        title: "Pandemic Preparedness",
-        description: "Healthcare system capacity concerns",
-        country: "India",
-        region: "Asia",
-        coordinates: [20.5937, 78.9629],
-        riskScore: 7.5,
-        upVotes: 41,
-        isThreats: false,
-        uploadTime: new Date("2024-01-12"),
-        exposureStartDate: new Date("2024-05-01"),
-        exposureEndDate: new Date("2024-11-30"),
-        isPublic: true,
-        riskType: "health",
-    },
-]
-
-const regions = [
-    { name: "Asia", countries: ["Bangladesh", "Myanmar", "India", "China", "Japan"] },
-    { name: "Europe", countries: ["Estonia", "Germany", "France", "Spain", "Italy"] },
-    { name: "South America", countries: ["Argentina", "Brazil", "Chile", "Colombia"] },
-    { name: "North America", countries: ["United States", "Canada", "Mexico"] },
-    { name: "Africa", countries: ["Nigeria", "South Africa", "Egypt", "Kenya"] },
-]
 
 export interface RiskDataRow {
     id: string
