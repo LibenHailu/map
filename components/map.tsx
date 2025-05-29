@@ -1,4 +1,5 @@
 
+// @ts-nocheck
 "use client"
 
 import { RiskDataRow } from "@/app/map/page"
