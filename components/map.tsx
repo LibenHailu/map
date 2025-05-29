@@ -30,7 +30,8 @@ export const WorldMap = ({ processedData }: Props) => {
 
     };
 
-    const onEachCountry = (country, layer) => {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const onEachCountry = (country: any, layer: any) => {
         if (!countryColorMap.has(country.properties.admin)) {
             return
         }
@@ -43,9 +44,7 @@ export const WorldMap = ({ processedData }: Props) => {
                 Group: ${countryColorMap.get(country.properties.admin).group} <br/>
                 UpVotes: ${countryColorMap.get(country.properties.admin).upVotes} <br/>
                 ThreatOrOpportunity: ${countryColorMap.get(country.properties.admin).threatOrOpportunity} <br/>
-        	`)
-
-
+            `)
     };
 
 
