@@ -65,13 +65,6 @@ export default function MapPage() {
             return aEndDate.getTime() - bEndDate.getTime()
         })
     }
-
-    useEffect(() => {
-        const res = filterData()
-        setProcessedData(res)
-
-    }, [viewType])
-
     const filterData = () => {
         const prioritySorted = sortByPriority([...riskDataset])
 
@@ -127,7 +120,15 @@ export default function MapPage() {
 
         return prioritySorted
     }
-    if(!processedData){
+
+    useEffect(() => {
+        const res = filterData()
+        setProcessedData(res)
+
+    }, [viewType, filterData])
+
+
+    if (!processedData) {
         return null
     }
     return (
@@ -235,7 +236,7 @@ export default function MapPage() {
                         </CardHeader>
                         <CardContent>
                             {typeof window !== "undefined" && processedData && (
-                                <WorldMap processedData={processedData} key={viewType}/>)}
+                                <WorldMap processedData={processedData} key={viewType} />)}
                         </CardContent>
                     </Card>
                 </div>
