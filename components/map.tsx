@@ -4,13 +4,14 @@
 import { RiskDataRow } from "@/app/map/page"
 import counties from "@/data/geo.json"
 import "leaflet/dist/leaflet.css"
+import { StringDecoder } from "node:string_decoder"
 import { GeoJSON, MapContainer, TileLayer } from "react-leaflet"
 
 type Props = {
     processedData: RiskDataRow[]
 }
 export const WorldMap = ({ processedData }: Props) => {
-    const allCountries: any = []
+    const allCountries: Array<Array<string>> = []
     processedData.forEach(data => allCountries.push(data.countries))
     const countriesSet = new Set(allCountries.flat())
 
@@ -29,7 +30,7 @@ export const WorldMap = ({ processedData }: Props) => {
     };
 
     const onEachCountry = (country, layer) => {
-        if (!countryColorMap.has(country.properties.admin)){
+        if (!countryColorMap.has(country.properties.admin)) {
             return
         }
         if (countriesSet.has(country.properties.admin)) {
