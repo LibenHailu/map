@@ -158,7 +158,7 @@ export default function MapPage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead >
-                                            <Select value={viewType} onValueChange={(value: any) => setViewType(value)}>
+                                            <Select value={viewType} onValueChange={(value: "global" | "regions") => setViewType(value)}>
                                                 <SelectTrigger className="min-w-[120px]">
                                                     <SelectValue />
                                                 </SelectTrigger>
