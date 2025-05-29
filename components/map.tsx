@@ -55,7 +55,7 @@ export const WorldMap = ({ processedData }: Props) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
 
-            <GeoJSON data={counties} style={mapStyle} onEachFeature={onEachCountry} />
+            <GeoJSON data={counties as GeoJSON.FeatureCollection} style={mapStyle} onEachFeature={onEachCountry} />
 
         </MapContainer>
     )
