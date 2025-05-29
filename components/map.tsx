@@ -4,7 +4,6 @@
 import { RiskDataRow } from "@/app/map/page"
 import counties from "@/data/geo.json"
 import "leaflet/dist/leaflet.css"
-import { StringDecoder } from "node:string_decoder"
 import { GeoJSON, MapContainer, TileLayer } from "react-leaflet"
 
 type Props = {
